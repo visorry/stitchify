@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { SparklesCore } from "./ui/sparkles";
-import image from "@/app/Leonardo_Vision_XL_hero_image_featuring_a_model_The_dress_shou_2_enhanced.png"
 // Define types for the props of the BentoCard component
 interface BentoCardProps {
   title: string;
@@ -53,7 +52,6 @@ export default function ModernFashionLanding() {
       <section
         ref={heroRef}
         className="min-h-screen pt-24 relative overflow-hidden bg-cover bg-center"
-        style={{ backgroundImage: `url(${image.src})` }}
       >
         <motion.div
           style={{ y }}
