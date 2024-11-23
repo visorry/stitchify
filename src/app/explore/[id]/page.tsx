@@ -13,7 +13,6 @@ import {
   RefreshCw,
   Shield,
   Eye,
-  Clock,
   Camera,
   Ruler,
   Award,
@@ -64,8 +63,8 @@ const ProductView = () => {
   const [quantity, setQuantity] = useState(1);
   const [isWishlist, setIsWishlist] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [showSizeGuide, setShowSizeGuide] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(3600); // 1 hour in seconds
+  // const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [ , setTimeLeft] = useState(3600); // 1 hour in seconds
 
   const sizes = ["XS", "S", "M", "L", "XL"];
   const colors = [
@@ -125,12 +124,12 @@ const ProductView = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hours}h ${minutes}m ${secs}s`;
-  };
+  // const formatTime = (seconds: number) => {
+  //   const hours = Math.floor(seconds / 3600);
+  //   const minutes = Math.floor((seconds % 3600) / 60);
+  //   const secs = seconds % 60;
+  //   return `${hours}h ${minutes}m ${secs}s`;
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
