@@ -9,8 +9,8 @@ import {
   Square as Cube,
   Hammer,
 } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { SparklesCore } from "./ui/sparkles";
+import { motion, useScroll } from "framer-motion";
+import HeroSection from "./hero-section";
 // Define types for the props of the BentoCard component
 interface BentoCardProps {
   title: string;
@@ -41,7 +41,6 @@ export default function ModernFashionLanding() {
   const [darkMode] = useState(false);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   const marqueeText =
     "HANDMADE WITH LOVE • SUSTAINABLE FASHION • UNIQUE DESIGNS • ";
@@ -51,42 +50,9 @@ export default function ModernFashionLanding() {
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="min-h-screen pt-24 relative overflow-hidden bg-cover bg-center"
+        className="min-h-screen relative overflow-hidden bg-cover bg-center"
       >
-        <motion.div
-          style={{ y }}
-          className="max-w-7xl mx-auto px-6 py-24 flex flex-col items-center"
-        >
-          <motion.h1
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-center mb-8"
-          >
-            WEAR THE
-            <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-              ARTISTRY
-            </span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-lg sm:text-xl md:text-2xl text-center mb-12 max-w-2xl"
-          >
-            Each piece tells a story, handcrafted with precision and passion
-            <SparklesCore
-              id="tsparticlesfullpage"
-              background="transparent"
-              minSize={0.6}
-              maxSize={1.4}
-              particleDensity={100}
-              className="w-full h-full"
-              particleColor="#000000"
-            />
-          </motion.p>
-        </motion.div>
-
+        <HeroSection />
         {/* Floating Elements */}
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(20)].map((_, i) => (
