@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import {
   ArrowRight,
   Heart,
-  ArrowUpRight,
   Facebook,
   Instagram,
   Mail,
@@ -35,38 +33,6 @@ const GradientText: React.FC<GradientTextProps> = ({
   </span>
 );
 export function LandingPage() {
-  const [currentSection, setCurrentSection] = useState(0);
-  const sectionsRef = useRef<HTMLElement[]>([]);
-
-  useEffect(() => {
-    const observers = sectionsRef.current.map((section, index) => {
-      return new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setCurrentSection(index);
-          }
-        },
-        { threshold: 0.5 }
-      );
-    });
-
-    sectionsRef.current.forEach((section, index) => {
-      if (section) observers[index].observe(section);
-    });
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect());
-    };
-  }, []);
-
-  const sections = [
-    {
-      title: "Craft Your Story",
-      subtitle: "Where Creativity Meets Community",
-      icon: Heart,
-      color: "from-violet-600 to-indigo-600",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -74,12 +40,7 @@ export function LandingPage() {
       <ModernFashionLanding />
 
       {/* Feature Sections */}
-      {sections.map((section, index) => (
         <section
-          key={index}
-          ref={(el) => {
-            if (el) sectionsRef.current[index] = el;
-          }}
           className="min-h-screen flex items-center justify-center relative py-24"
         >
           <motion.div
@@ -94,9 +55,9 @@ export function LandingPage() {
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   transition={{ duration: 0.5 }}
-                  className={`inline-block p-4 rounded-2xl bg-gradient-to-r ${section.color} mb-8`}
+                  className={`inline-block p-4 rounded-2xl bg-gradient-to-r from-violet-600 to-indigo-600 mb-8`}
                 >
-                  <section.icon className="h-12 w-12 text-white" />
+                  <Heart className="h-12 w-12 text-white" />
                 </motion.div>
                 <motion.h2
                   initial={{ x: -100, opacity: 0 }}
@@ -104,7 +65,7 @@ export function LandingPage() {
                   transition={{ duration: 0.7 }}
                   className="text-6xl md:text-7xl font-black mb-6"
                 >
-                  {section.title}
+                  Craft Your Story
                 </motion.h2>
                 <motion.p
                   initial={{ x: -100, opacity: 0 }}
@@ -112,7 +73,7 @@ export function LandingPage() {
                   transition={{ duration: 0.7, delay: 0.2 }}
                   className="text-2xl text-gray-600 dark:text-gray-300"
                 >
-                  {section.subtitle}
+                  Where Creativity Meets Community
                 </motion.p>
               </div>
               <motion.div
@@ -139,7 +100,6 @@ export function LandingPage() {
             </div>
           </motion.div>
         </section>
-      ))}
 
       {/* Call to Action */}
       <section className="min-h-screen flex items-center justify-center relative py-24 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-950 dark:to-pink-950">
@@ -147,7 +107,7 @@ export function LandingPage() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          className="max-w-7xl mx-auto px-6 text-center"
+          className="max-w-7xl text-center"
         >
           <h2 className="text-7xl md:text-8xl font-black mb-12">
             <GradientText>Join Our Creative Community</GradientText>
@@ -161,20 +121,6 @@ export function LandingPage() {
         </motion.div>
       </section>
 
-      {/* Fixed Progress Indicator */}
-      <div className="fixed right-8 top-1/2 -translate-y-1/2 space-y-4 z-50">
-        {sections.map((_, index) => (
-          <motion.div
-            key={index}
-            className={`w-3 h-3 rounded-full ${
-              currentSection === index
-                ? "bg-purple-600"
-                : "bg-gray-300 dark:bg-gray-700"
-            }`}
-            whileHover={{ scale: 1.5 }}
-          />
-        ))}
-      </div>
       <footer className="bg-black text-white pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-6">
           {/* Newsletter Section */}
@@ -311,15 +257,6 @@ export function LandingPage() {
               </div>
             </div>
           </div>
-
-          {/* Back to Top Button */}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-white text-black flex items-center justify-center"
-          >
-            <ArrowUpRight className="w-6 h-6" />
-          </motion.button>
         </div>
       </footer>
     </div>

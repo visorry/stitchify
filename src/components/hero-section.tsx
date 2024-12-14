@@ -14,7 +14,6 @@ import Link from "next/link";
 import { useRef, ReactNode } from "react";
 import { Button } from "./ui/button";
 import clsx from "clsx";
-import { SparklesCore } from "./ui/sparkles";
 
 // Define prop types for WhimsyBox
 type WhimsyBoxProps = {
@@ -107,7 +106,8 @@ export default function WhimsicalHero() {
         </WhimsyBox>
 
         {/* Spotlight Box */}
-        <WhimsyBox className="bg-gradient-to-br from-blue-500 to-cyan-400 text-white flex flex-col justify-between relative overflow-hidden">
+        <WhimsyBox className="bg-gradient-to-br from-blue-500 to-cyan-400 text-white flex flex-col justify-between relative overflow-hidden p-6">
+          {/* Background Image with Gradient Mask */}
           <Image
             src="https://picsum.photos/300/300"
             alt="Spotlight Background"
@@ -120,11 +120,15 @@ export default function WhimsicalHero() {
                 "linear-gradient(to bottom, transparent, black 50%)",
             }}
           />
-          <div className="bg-white p-2 rounded-full w-min relative z-10">
+
+          {/* Decorative Icon */}
+          <div className="bg-white p-2 rounded-full w-min relative z-10 shadow-md">
             <Palette className="text-blue-500 h-6 w-6" />
           </div>
-          <div className="mt-4 relative z-10">
-            <h3 className="font-semibold flex items-center">
+
+          {/* Text Content */}
+          <div className="relative z-10 mt-6 text-shadow-sm">
+            <h3 className="font-semibold text-lg flex items-center">
               Spotlight on Designers
             </h3>
             <p className="text-sm mt-2">
@@ -132,9 +136,11 @@ export default function WhimsicalHero() {
               artists.
             </p>
           </div>
+
+          {/* CTA Link */}
           <Link
             href="#"
-            className="text-sm font-medium flex items-center mt-4 text-white relative z-10"
+            className="text-sm font-medium flex items-center mt-4 text-white relative z-10 underline decoration-white"
             aria-label="Discover Featured Designers"
           >
             Discover Creators
@@ -143,8 +149,9 @@ export default function WhimsicalHero() {
         </WhimsyBox>
 
         {/* Featured Designer Box */}
-        <WhimsyBox className="md:col-span-2 bg-gradient-to-br from-green-400 to-blue-500 text-white flex flex-col justify-between relative overflow-hidden">
-          <div>
+        <WhimsyBox className="md:col-span-2 bg-gradient-to-br from-green-400 to-blue-500 text-white flex flex-row justify-between relative overflow-hidden p-6">
+          {/* Text Section */}
+          <div className="flex flex-col justify-start z-10 w-2/3">
             <div className="flex space-x-2 mb-2">
               <span className="bg-white text-green-600 text-xs px-3 py-0.5 rounded-full font-bold">
                 🌟 Featured
@@ -161,14 +168,18 @@ export default function WhimsicalHero() {
               designers.
             </p>
           </div>
-          <Image
-            src="https://picsum.photos/300/300"
-            alt="Featured Designer"
-            width={300}
-            height={300}
-            className="rounded-full border-4 border-white shadow-lg absolute bottom-0 right-0"
-            priority
-          />
+
+          {/* Image Section */}
+          <div className="relative w-1/3 flex items-end justify-end">
+            <Image
+              src="https://picsum.photos/300/300"
+              alt="Featured Designer"
+              width={300}
+              height={300}
+              className="rounded-full border-4 border-white shadow-lg"
+              priority
+            />
+          </div>
         </WhimsyBox>
 
         {/* Minimal Brush Icon Box */}
@@ -179,15 +190,6 @@ export default function WhimsicalHero() {
           <Brush className="text-white" size={40} />
         </WhimsyBox>
       </div>
-      <SparklesCore
-        id="tsparticlesfullpage"
-        background="transparent"
-        minSize={0.6}
-        maxSize={1.4}
-        particleDensity={100}
-        className="w-full h-full"
-        particleColor="#000000"
-      />
     </main>
   );
 }

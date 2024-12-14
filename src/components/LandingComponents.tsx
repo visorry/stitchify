@@ -1,14 +1,5 @@
 import React, { useRef, useState } from "react";
-import {
-  ShirtIcon,
-  Scissors,
-  Sparkles as Star,
-  Heart,
-  Palette,
-  Leaf,
-  Square as Cube,
-  Hammer,
-} from "lucide-react";
+import { ShirtIcon } from "lucide-react";
 import { motion, useScroll } from "framer-motion";
 import HeroSection from "./hero-section";
 // Define types for the props of the BentoCard component
@@ -53,26 +44,6 @@ export default function ModernFashionLanding() {
         className="min-h-screen relative overflow-hidden bg-cover bg-center"
       >
         <HeroSection />
-        {/* Floating Elements */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute"
-              animate={{
-                x: ["0vw", "100vw"],
-                y: [`${Math.random() * 100}vh`, `${Math.random() * 100}vh`],
-              }}
-              transition={{
-                duration: 15 + Math.random() * 10,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            >
-              <Star className="text-purple-500/20 w-6 h-6 sm:w-8 sm:h-8" />
-            </motion.div>
-          ))}
-        </div>
       </section>
 
       {/* Running Text Section */}
@@ -91,60 +62,6 @@ export default function ModernFashionLanding() {
           </motion.div>
         </div>
       </div>
-
-      {/* Bento Grid Section */}
-      <section className="max-w-7xl mx-auto px-6 py-24">
-        <h2 className="text-6xl font-bold mb-12 text-center">Our Craft</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-2">
-            <BentoCard
-              title="Sustainable Materials"
-              description="We source only the finest eco-friendly fabrics"
-              icon={Palette}
-              gradient="bg-gradient-to-br from-purple-600 to-pink-600"
-            />
-          </div>
-          <BentoCard
-            title="Handcrafted"
-            description="Every stitch tells a story"
-            icon={Scissors}
-            gradient="bg-gradient-to-br from-blue-600 to-purple-600"
-          />
-          <BentoCard
-            title="Limited Edition"
-            description="Unique pieces for unique individuals"
-            icon={Star}
-            gradient="bg-gradient-to-br from-pink-600 to-orange-600"
-          />
-          <div className="md:col-span-2">
-            <BentoCard
-              title="Community Driven"
-              description="Join our growing family of artisans and fashion enthusiasts"
-              icon={Heart}
-              gradient="bg-gradient-to-br from-orange-600 to-yellow-600"
-            />
-          </div>
-          {/* New Cards */}
-          <BentoCard
-            title="Eco Friendly"
-            description="Green practices in everything we do"
-            icon={Leaf}
-            gradient="bg-gradient-to-br from-green-600 to-teal-600"
-          />
-          <BentoCard
-            title="Innovative Design"
-            description="Modern techniques meet classic beauty"
-            icon={Cube}
-            gradient="bg-gradient-to-br from-teal-600 to-blue-600"
-          />
-          <BentoCard
-            title="Artisan Crafted"
-            description="A timeless commitment to quality"
-            icon={Hammer}
-            gradient="bg-gradient-to-br from-red-600 to-yellow-600"
-          />
-        </div>
-      </section>
 
       {/* Product Preview Section */}
       <section className="py-24 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-950 dark:to-pink-950">
