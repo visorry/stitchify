@@ -1,34 +1,38 @@
-/* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Minus, Plus, ShoppingCart, Trash2, ArrowRight, Heart, RefreshCw } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, Cloud, Sparkles } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
 } from "@/components/ui/card";
 
-const CartPage = () => {
-  const [cartItems, setCartItems] = useState([
+// Define types for cart items
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+const WhimsicalCart: React.FC = () => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([
     {
       id: 1,
-      name: "Artisan Leather Bag",
-      price: 299.99,
+      name: "Magic Cloud Pillow",
+      price: 42,
       quantity: 1,
-      image: "/api/placeholder/200/200",
-      color: "Cognac",
-      size: "Medium"
+      image: "/api/placeholder/150/150"
     },
     {
       id: 2,
-      name: "Handwoven Scarf",
-      price: 89.99,
-      quantity: 2,
-      image: "/api/placeholder/200/200",
-      color: "Indigo",
-      size: "One Size"
+      name: "Star Dust Blanket",
+      price: 38,
+      quantity: 1,
+      image: "/api/placeholder/150/150"
     }
   ]);
 
@@ -46,155 +50,147 @@ const CartPage = () => {
     setCartItems(items => items.filter(item => item.id !== id));
   };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = 15;
-  const tax = subtotal * 0.08;
-  const total = subtotal + shipping + tax;
+  const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 py-12">
-      <div className="max-w-7xl mx-auto px-6">
+    <div className="min-h-screen bg-gradient-to-br">
+      <div className="max-w-2xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="text-center mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-black mb-4">Your Cart</h1>
-          <div className="flex items-center text-gray-600 dark:text-gray-300">
-            <ShoppingCart className="w-5 h-5 mr-2" />
-            <span>{cartItems.length} items</span>
+          <div className="flex items-center justify-center mb-4">
+            <motion.div
+              animate={{ 
+                rotate: [0, 10, -10, 0],
+                y: [0, -5, 0]
+              }}
+              transition={{ 
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <ShoppingBag className="w-12 h-12 text-purple-400" />
+            </motion.div>
+          </div>
+          <h1 className="text-3xl font-light tracking-wide">your magical cart</h1>
+          <div className="text-sm text-purple-400 mt-2">
+            {cartItems.length} treasures inside
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-6">
-            {cartItems.map((item) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-              >
-                <Card className="overflow-hidden">
-                  <CardContent className="p-6">
-                    <div className="flex gap-6">
+        <div className="space-y-6">
+          {cartItems.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-none shadow-sm">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-4">
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      className="relative"
+                    >
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-32 h-32 object-cover rounded-lg"
+                        className="w-16 h-16 rounded-full object-cover"
                       />
-                      <div className="flex-1">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="text-xl font-bold mb-2">{item.name}</h3>
-                            <p className="text-gray-600 dark:text-gray-300 mb-2">
-                              Color: {item.color} | Size: {item.size}
-                            </p>
-                            <p className="text-2xl font-bold text-purple-600">
-                              ${item.price}
-                            </p>
-                          </div>
-                          <div className="flex gap-4">
-                            <motion.button
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
-                              onClick={() => removeItem(item.id)}
-                              className="text-gray-400 hover:text-red-500"
-                            >
-                              <Trash2 className="w-5 h-5" />
-                            </motion.button>
-                            <motion.button
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
-                              className="text-gray-400 hover:text-purple-500"
-                            >
-                              <Heart className="w-5 h-5" />
-                            </motion.button>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4 mt-4">
-                          <div className="flex items-center gap-2">
-                            <motion.button
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
-                              onClick={() => updateQuantity(item.id, -1)}
-                              className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center"
-                            >
-                              <Minus className="w-4 h-4" />
-                            </motion.button>
-                            <span className="w-12 text-center">{item.quantity}</span>
-                            <motion.button
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
-                              onClick={() => updateQuantity(item.id, 1)}
-                              className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center"
-                            >
-                              <Plus className="w-4 h-4" />
-                            </motion.button>
-                          </div>
-                        </div>
+                      <motion.div
+                        animate={{
+                          scale: [1, 1.2, 1],
+                          opacity: [0.5, 1, 0.5]
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        className="absolute -top-1 -right-1"
+                      >
+                        <Sparkles className="w-4 h-4 text-yellow-400" />
+                      </motion.div>
+                    </motion.div>
+
+                    <div className="flex-1">
+                      <h3 className="text-lg font-light">{item.name}</h3>
+                      <div className="text-purple-500 font-mono mt-1">
+                        ${item.price}
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
 
-          {/* Order Summary */}
-          <div className="lg:col-span-1">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
-                  <div className="space-y-4">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">Subtotal</span>
-                      <span className="font-bold">${subtotal.toFixed(2)}</span>
+                    <div className="flex items-center gap-2">
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => updateQuantity(item.id, -1)}
+                        className="w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center"
+                      >
+                        <Minus className="w-3 h-3 text-purple-600 dark:text-purple-300" />
+                      </motion.button>
+                      <span className="w-8 text-center font-light">{item.quantity}</span>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => updateQuantity(item.id, 1)}
+                        className="w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center"
+                      >
+                        <Plus className="w-3 h-3 text-purple-600 dark:text-purple-300" />
+                      </motion.button>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">Shipping</span>
-                      <span className="font-bold">${shipping.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600 dark:text-gray-300">Tax</span>
-                      <span className="font-bold">${tax.toFixed(2)}</span>
-                    </div>
-                    <div className="pt-4 mt-4 border-t">
-                      <div className="flex justify-between">
-                        <span className="text-lg font-bold">Total</span>
-                        <span className="text-lg font-bold">${total.toFixed(2)}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-8 space-y-4">
-                    <Button className="w-full h-14 text-lg bg-purple-600 hover:bg-purple-700 text-white rounded-full">
-                      Checkout
-                      <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                    <Button variant="outline" className="w-full h-14 text-lg rounded-full">
-                      Continue Shopping
-                    </Button>
-                  </div>
-
-                  <div className="mt-8 flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                    <RefreshCw className="w-4 h-4" />
-                    <span>30-Day Return Policy</span>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
-          </div>
+          ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-12"
+        >
+          <Card className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-none">
+            <CardContent className="p-6">
+              <div className="flex justify-between items-center mb-8">
+                <span className="text-lg font-light">total</span>
+                <span className="text-2xl font-light">${total}</span>
+              </div>
+              
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button className="w-full h-12 bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white rounded-full font-light tracking-wide">
+                  make it yours
+                </Button>
+              </motion.div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div 
+          className="fixed bottom-4 left-1/2 -translate-x-1/2"
+          animate={{
+            y: [0, -5, 0],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Cloud className="w-6 h-6 text-purple-300" />
+        </motion.div>
       </div>
     </div>
   );
 };
 
-export default CartPage;
-
+export default WhimsicalCart;
