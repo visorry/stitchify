@@ -8,7 +8,6 @@ import FilterTag from "@/components/explore/FilterTag";
 import Categories from "@/components/explore/Categories";
 import FilterComponent from "@/components/explore/FilterComponent";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const ExplorePage: React.FC = () => {

@@ -28,7 +28,7 @@ const Categories: React.FC<CategoriesProps> = ({
           className={`p-8 rounded-3xl ${
             activeCategory === category.id
               ? "bg-gradient-to-br from-purple-500 to-pink-500 text-white"
-              : "bg-gray-100 dark:bg-gray-800"
+              : "bg-primary-foreground"
           }`}
           onClick={() => setActiveCategory(category.id)}
         >

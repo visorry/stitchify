@@ -46,10 +46,6 @@ const WhimsicalCart: React.FC = () => {
     );
   };
 
-  const removeItem = (id: number) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
-
   const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   return (

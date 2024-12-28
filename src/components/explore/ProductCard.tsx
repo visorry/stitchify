@@ -22,7 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => (
     whileHover={{ y: -10 }}
     className="group relative"
   >
-    <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-gray-100 dark:bg-gray-800 relative">
+    <div className="aspect-[4/5] rounded-3xl overflow-hidden">
       <img
         src="/api/placeholder/600/750"
         alt={product.name}
@@ -34,9 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => (
     </div>
     <div className="mt-4">
       <h4 className="text-lg font-semibold">{product.name}</h4>
-      <p className="text-sm text-gray-600 dark:text-gray-300">
-        {product.artisan}
-      </p>
+      <p className="text-sm">{product.artisan}</p>
       <div className="mt-2 flex items-center justify-between">
         <span className="text-xl font-bold">${product.price}</span>
         <div className="flex gap-2 flex-wrap">
