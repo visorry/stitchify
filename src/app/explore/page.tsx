@@ -1,26 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Search,
-  SlidersHorizontal,
-  ArrowUpRight,
-  ShoppingBag,
-} from "lucide-react";
+import { ShoppingBag, Filter } from "lucide-react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import ProductCard from "@/components/explore/ProductCard";
 import FilterTag from "@/components/explore/FilterTag";
 import Categories from "@/components/explore/Categories";
-import Filters from "@/components/explore/Filters";
+import FilterComponent from "@/components/explore/FilterComponent";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const ExplorePage: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<number>(1)
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000])
-
+  const [activeCategory, setActiveCategory] = useState<number>(1);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+  const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
+  const [selectedPriceRange, setSelectedPriceRange] = useState<
+    [number, number]
+  >([0, 500]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const products = [
     {
@@ -109,88 +108,167 @@ const ExplorePage: React.FC = () => {
     },
   ];
 
-  return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-lg py-4">
-        <div className="max-w-7xl mx-auto px-6 flex items-center gap-6">
-          <div className="flex-1 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search artisan pieces..."
-              className="w-full pl-12 pr-4 py-3 rounded-full bg-gray-100 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-          </div>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full w-12 h-12"
-              >
-                <SlidersHorizontal className="w-5 h-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent className="w-[400px]">
-              <Filters
-                selectedTags={selectedTags}
-                setSelectedTags={setSelectedTags}
-                priceRange={priceRange}
-                setPriceRange={setPriceRange}
-              />
-            </SheetContent>
-          </Sheet>
-        </div>
-      </header>
+  const categories = ["Dresses", "Tops", "Skirts", "Accessories"];
+  const materials = ["Cotton", "Silk", "Linen", "Wool"];
+  const styles = ["Bohemian", "Minimalist", "Vintage", "Contemporary"];
 
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
+
+  const handleMaterialChange = (material: string) => {
+    setSelectedMaterials((prev) =>
+      prev.includes(material)
+        ? prev.filter((m) => m !== material)
+        : [...prev, material]
+    );
+  };
+
+  const handleStyleChange = (style: string) => {
+    setSelectedStyles((prev) =>
+      prev.includes(style) ? prev.filter((s) => s !== style) : [...prev, style]
+    );
+  };
+
+  const handlePriceRangeChange = (range: [number, number]) => {
+    setSelectedPriceRange(range);
+  };
+
+  const handleClearFilters = () => {
+    setSelectedCategories([]);
+    setSelectedMaterials([]);
+    setSelectedStyles([]);
+    setSelectedPriceRange([0, 500]);
+  };
+
+  const filteredProducts = products.filter((product) => {
+    const categoryMatch =
+      selectedCategories.length === 0 ||
+      selectedCategories.includes(product.name.split(" ")[1]);
+    const materialMatch =
+      selectedMaterials.length === 0 ||
+      selectedMaterials.some((m) => product.tags.includes(m));
+    const styleMatch =
+      selectedStyles.length === 0 ||
+      selectedStyles.some((s) => product.tags.includes(s));
+    const priceMatch =
+      product.price >= selectedPriceRange[0] &&
+      product.price <= selectedPriceRange[1];
+    return categoryMatch && materialMatch && styleMatch && priceMatch;
+  });
+
+  return (
+    <div className="min-h-screen relative">
       {/* Categories */}
       <Categories
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
       />
 
-      {/* Active Filters */}
-      <section className="py-6">
-        <div className="max-w-7xl mx-auto px-6 flex flex-wrap gap-3">
-          {["Sustainable", "Under $300", "Limited Edition"].map((tag) => (
-            <FilterTag key={tag} active={selectedTags.includes(tag)}>
-              {tag}
-            </FilterTag>
-          ))}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Explore Artisan Products</h1>
         </div>
-      </section>
 
-      {/* Product Grid */}
-      <section className="py-12">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products.map((product) => (
+        {/* Active Filters */}
+        <section className="mb-6">
+          <div className="flex flex-wrap gap-3">
+            {[
+              ...selectedCategories,
+              ...selectedMaterials,
+              ...selectedStyles,
+            ].map((tag) => (
+              <FilterTag key={tag} active={true}>
+                {tag}
+              </FilterTag>
+            ))}
+            {(selectedPriceRange[0] > 0 || selectedPriceRange[1] < 500) && (
+              <FilterTag active={true}>
+                ${selectedPriceRange[0]} - ${selectedPriceRange[1]}
+              </FilterTag>
+            )}
+          </div>
+        </section>
+
+        {/* Product Grid */}
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
-        </div>
-      </section>
-
-      {/* Load More Button */}
-      <div className="py-12 text-center">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-medium inline-flex items-center gap-2"
-        >
-          Load More
-          <ArrowUpRight className="w-5 h-5" />
-        </motion.button>
+        </section>
       </div>
+
+      {/* Floating Filter Button for Larger Screens */}
+      <Dialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+        <DialogTrigger asChild>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            className="hidden lg:flex fixed top-8 left-8 w-16 h-16 rounded-full bg-black dark:bg-white text-white dark:text-black items-center justify-center shadow-lg"
+          >
+            <Filter className="w-6 h-6" />
+          </motion.button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <FilterComponent
+            categories={categories}
+            materials={materials}
+            styles={styles}
+            priceRange={[0, 500]}
+            selectedCategories={selectedCategories}
+            selectedMaterials={selectedMaterials}
+            selectedStyles={selectedStyles}
+            selectedPriceRange={selectedPriceRange}
+            onCategoryChange={handleCategoryChange}
+            onMaterialChange={handleMaterialChange}
+            onStyleChange={handleStyleChange}
+            onPriceRangeChange={handlePriceRangeChange}
+            onClearFilters={handleClearFilters}
+          />
+        </DialogContent>
+      </Dialog>
 
       {/* Floating Cart Button */}
       <Link href="/cart">
         <motion.button
           whileHover={{ scale: 1.1 }}
-          className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center shadow-lg"
+          className="hidden lg:flex fixed bottom-8 right-8 w-16 h-16 rounded-full bg-black dark:bg-white text-white dark:text-black items-center justify-center shadow-lg"
         >
           <ShoppingBag className="w-6 h-6" />
         </motion.button>
       </Link>
+
+      {/* Mobile Floating Filter Button (Cylinder Style) */}
+      <Dialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+        <DialogTrigger asChild>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            className="lg:hidden fixed top-24 right-0 w-14 h-14 rounded-full text-black dark:text-white flex items-center justify-center shadow-lg bg-black/10 dark:bg-white/10"
+          >
+            <Filter className="w-6 h-6" />
+          </motion.button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <FilterComponent
+            categories={categories}
+            materials={materials}
+            styles={styles}
+            priceRange={[0, 500]}
+            selectedCategories={selectedCategories}
+            selectedMaterials={selectedMaterials}
+            selectedStyles={selectedStyles}
+            selectedPriceRange={selectedPriceRange}
+            onCategoryChange={handleCategoryChange}
+            onMaterialChange={handleMaterialChange}
+            onStyleChange={handleStyleChange}
+            onPriceRangeChange={handlePriceRangeChange}
+            onClearFilters={handleClearFilters}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
