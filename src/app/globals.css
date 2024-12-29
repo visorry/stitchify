@@ -67,3 +67,20 @@
     @apply bg-background text-foreground;
   }
 }
+:root {
+  --font-neue-metana-next: "NeueMetanaNext", sans-serif;
+}
+
+body {
+  font-family: var(--font-neue-metana-next), system-ui, sans-serif;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
