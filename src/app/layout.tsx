@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "next-themes";
 
 const geistSans = localFont({
@@ -37,8 +36,7 @@ export default function RootLayout({
           enableSystem={true}
           storageKey="theme"
         >
-          <Navbar />
-          <main className="flex-1 pt-24">{children}</main>
+          <main>{children}</main>
         </ThemeProvider>
       </body>
     </html>
