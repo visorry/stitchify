@@ -1,13 +1,28 @@
 "use client";
 
-import { Heart } from "lucide-react";
+import { Crown, Heart, ShoppingBagIcon } from 'lucide-react';
 import Image from "next/image";
+import { Button } from "./ui/button";
 
 export function HeroSection() {
   return (
-    <section className="container mx-auto px-6 sm:px-12 lg:px-20 py-12">
+    <section className="relative overflow-hidden min-h-screen w-full px-6 sm:px-12 lg:px-20 py-12">
+      {/* Background Grid */}
+      <div className="absolute top-0 left-0 w-full h-full grid grid-cols-[repeat(auto-fill,minmax(20px,1fr))] grid-rows-[repeat(auto-fill,minmax(20px,1fr))] opacity-10">
+        {[...Array(1000)].map((_, i) => (
+          <div
+            key={i}
+            className="border-[0.5px] border-emerald-600"
+            style={{
+              animation: `pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
+              animationDelay: `${Math.random() * 4}s`,
+            }}
+          />
+        ))}
+      </div>
+
       {/* Hero Section Grid */}
-      <div className="grid lg:grid-cols-[1.2fr,1fr] gap-12 lg:gap-16">
+      <div className="grid lg:grid-cols-[1.2fr,1fr] gap-12 lg:gap-16 relative z-10">
         {/* Left Side - Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-[2fr,1fr] gap-6 h-auto lg:h-[600px]">
           {/* Main Product */}
@@ -79,13 +94,13 @@ export function HeroSection() {
         {/* Right Side - Content & Product */}
         <div className="flex flex-col justify-between space-y-10">
           <div className="space-y-6 mb-8">
-            <h1 className="text-[2.5rem] sm:text-[3.5rem] font-extrabold leading-tight font-script">
+            <h1 className="text-[2.5rem] sm:text-[3.5rem] font-extrabold leading-tight font-script uppercase">
               Empowering{" "}
-              <span className="bg-gradient-to-r from-navy-900 to-emerald-800 text-transparent bg-clip-text font-extrabold">
+              <span className="bg-gradient-to-r from-navy-900 to-emerald-500 text-transparent bg-clip-text font-extrabold">
                 Creators
               </span>{" "}
-              and Enriching {""}
-              <span className="bg-gradient-to-r from-navy-900 to-emerald-800 text-transparent bg-clip-text font-extrabold">
+              and Enriching{" "}
+              <span className="bg-gradient-to-r from-navy-900 to-emerald-500 text-transparent bg-clip-text font-extrabold">
                 Collectors
               </span>
             </h1>
@@ -95,19 +110,19 @@ export function HeroSection() {
               with Your Unique Style
             </p>
             <div className="flex gap-4">
-              <button
+              <Button
+                variant="curvy"
+                size="curvy"
                 className="px-8 py-3.5 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 
                                   transition-colors text-sm font-medium inline-flex items-center gap-2"
               >
-                Shop Now
-                <span className="text-lg">→</span>
-              </button>
+                Collect Now <ShoppingBagIcon className="w-4 h-4" />
+              </Button>
               <button
                 className="px-8 py-3.5 bg-navy-900 text-white rounded-full hover:bg-navy-700 
                                   transition-colors text-sm font-medium inline-flex items-center gap-2"
               >
-                Become a Creator
-                <span className="text-lg">→</span>
+                Become a Creator <Crown className="w-4 h-4" />
               </button>
             </div>
           </div>

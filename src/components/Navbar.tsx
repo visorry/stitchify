@@ -47,7 +47,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 w-[80%] max-w-[1400px] ${
+        className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 w-[90%] max-w-[1400px] ${
           isScrolled
             ? "bg-background/80 backdrop-blur-xl shadow-lg rounded-full"
             : "bg-background rounded-full"
@@ -55,45 +55,43 @@ export default function Navbar() {
         role="banner"
       >
         <div className="mx-auto p-1 bg-gradient-to-r from-indigo-700 via-indigo-500 to-emerald-500 rounded-full animate-gradient-x">
-          <div className="flex items-center justify-between h-16 px-8 bg-background rounded-full">
-            <div className="flex items-center space-x-6">
-              {/* Logo */}
-              <div className="flex-shrink-0">
-                <Link href="/" className="text-2xl font-bold text-primary">
-                  Logo
-                </Link>
-              </div>
-
-              {/* Desktop Navigation */}
-              <nav className="hidden md:flex items-center space-x-4">
-                {navigationItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
-                      theme === "dark"
-                        ? "text-gray-300 hover:text-indigo-700"
-                        : "text-gray-800 hover:text-indigo-500"
-                    }`}
-                    onMouseEnter={() => setActiveItem(item.name)}
-                    onMouseLeave={() => setActiveItem("")}
-                  >
-                    <span className="relative z-10">{item.name}</span>
-                    {activeItem === item.name && (
-                      <span className="absolute inset-0 bg-gradient-to-r from-indigo-100 to-emerald-100 rounded-full -z-0 animate-fade-in" />
-                    )}
-                  </Link>
-                ))}
-              </nav>
+          <div className="flex items-center justify-between h-16 px-4 md:px-8 bg-background rounded-full">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <Link href="/" className="text-2xl font-bold text-primary">
+                Logo
+              </Link>
             </div>
 
-            {/* Search Bar */}
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-4">
+              {navigationItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
+                    theme === "dark"
+                      ? "text-gray-300 hover:text-indigo-700"
+                      : "text-gray-800 hover:text-indigo-500"
+                  }`}
+                  onMouseEnter={() => setActiveItem(item.name)}
+                  onMouseLeave={() => setActiveItem("")}
+                >
+                  <span className="relative z-10">{item.name}</span>
+                  {activeItem === item.name && (
+                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-100 to-emerald-100 rounded-full -z-0 animate-fade-in" />
+                  )}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Search Bar (Visible on small and large screens) */}
             <div className="flex-grow max-w-md mx-4">
-              <div className="relative">
+              <div className="relative w-full">
                 <Input
                   type="search"
                   placeholder="Search..."
-                  className="w-full pl-10 pr-4 py-2 rounded-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                  className="w-full pl-10 pr-4 py-2 rounded-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-50 shadow-none"
                 />
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Search className="h-5 w-5 text-gray-400" />
@@ -101,7 +99,8 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="flex items-center space-x-4">
+            {/* Theme Switcher and Login Button */}
+            <div className="flex items-center space-x-2 md:space-x-4">
               <Button
                 variant="ghost"
                 size="icon"
@@ -114,7 +113,10 @@ export default function Navbar() {
                 )}
                 <span className="sr-only">Toggle theme</span>
               </Button>
-              <Button variant="outline" size="sm">
+              <Button
+                variant="curvy"
+                className="px-4 py-2 text-sm hidden md:block"
+              >
                 Log in
               </Button>
             </div>

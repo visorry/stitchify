@@ -84,20 +84,24 @@ export function LandingPage() {
       </section>
 
       {/* Call to Action */}
-      <section className="min-h-screen flex items-center justify-center relative py-24 bg-gradient-to-br from-navy-100 to-emerald-100 dark:from-navy-950 dark:to-emerald-950">
+      <section className="min-h-screen flex items-center justify-center relative py-16 md:py-24 bg-gradient-to-br from-navy-100 to-emerald-100 dark:from-navy-950 dark:to-emerald-950">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          className="max-w-7xl text-center"
+          className="max-w-7xl px-6 sm:px-12 lg:px-16 text-center w-full"
         >
-          <h2 className="text-7xl md:text-8xl font-black mb-12">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 md:mb-12 leading-tight">
             <GradientText>Join Our Creative Community</GradientText>
           </h2>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button className="h-20 px-12 text-2xl bg-black dark:bg-white text-white dark:text-black rounded-full">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex justify-center"
+          >
+            <Button className="h-16 sm:h-20 px-6 sm:px-10 md:px-12 text-lg sm:text-xl md:text-2xl bg-black dark:bg-white text-white dark:text-black rounded-full flex items-center">
               Start Creating Today
-              <ArrowRight className="ml-3 h-8 w-8" />
+              <ArrowRight className="ml-3 h-6 sm:h-8 w-6 sm:w-8" />
             </Button>
           </motion.div>
         </motion.div>

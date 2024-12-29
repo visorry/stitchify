@@ -200,13 +200,20 @@ const ExplorePage: React.FC = () => {
           ))}
         </section>
       </div>
-
-      {/* Floating Filter Button for Larger Screens */}
+      {/* Floating Cart Button */}
+      <Link href="/cart">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          className="hidden lg:flex fixed bottom-8 right-8 w-16 h-16 rounded-full bg-black dark:bg-white text-white dark:text-black items-center justify-center shadow-lg"
+        >
+          <ShoppingBag className="w-6 h-6" />
+        </motion.button>
+      </Link>
       <Dialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
         <DialogTrigger asChild>
           <motion.button
             whileHover={{ scale: 1.1 }}
-            className="hidden lg:flex fixed top-8 left-8 w-16 h-16 rounded-full bg-black dark:bg-white text-white dark:text-black items-center justify-center shadow-lg"
+            className="hidden lg:flex fixed bottom-28 right-8 w-16 h-16 rounded-full bg-black dark:bg-white text-white dark:text-black items-center justify-center shadow-lg"
           >
             <Filter className="w-6 h-6" />
           </motion.button>
@@ -229,16 +236,6 @@ const ExplorePage: React.FC = () => {
           />
         </DialogContent>
       </Dialog>
-
-      {/* Floating Cart Button */}
-      <Link href="/cart">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          className="hidden lg:flex fixed bottom-8 right-8 w-16 h-16 rounded-full bg-black dark:bg-white text-white dark:text-black items-center justify-center shadow-lg"
-        >
-          <ShoppingBag className="w-6 h-6" />
-        </motion.button>
-      </Link>
 
       {/* Mobile Floating Filter Button (Cylinder Style) */}
       <Dialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
