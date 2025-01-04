@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden min-h-screen w-full px-4 sm:px-6 md:px-8 lg:px-12 py-12">
+    <section className="relative overflow-hidden min-h-screen w-full px-4 sm:px-6 md:px-8 lg:px-12 py-12 md:py-12">
       {/* Background Grid */}
       <div className="absolute top-0 left-0 w-full h-full grid grid-cols-[repeat(auto-fill,minmax(20px,1fr))] grid-rows-[repeat(auto-fill,minmax(20px,1fr))] opacity-10">
         {[...Array(1000)].map((_, i) => (
@@ -22,13 +22,13 @@ export function HeroSection() {
       </div>
 
       {/* Hero Section Grid */}
-      <div className="grid lg:grid-cols-[1.2fr,1fr] gap-6 sm:gap-10 lg:gap-16 relative z-10">
+      <div className="grid lg:grid-cols-[1.2fr,1fr] gap-8 sm:gap-12 lg:gap-16 relative z-10">
         {/* Left Side - Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-[2fr,1fr] gap-6 h-auto lg:h-[600px]">
+        <div className="grid grid-cols-1 sm:grid-cols-[2fr,1fr] gap-8 h-auto lg:h-[600px]">
           {/* Main Product */}
-          <div className="relative group rounded-3xl overflow-hidden">
+          <div className="relative group rounded-3xl overflow-hidden bg-navy-900">
             <Image
-              src="https://images.squarespace-cdn.com/content/v1/635d7c2bcac71a07377304c0/c8c949f9-78c3-451d-bd03-892ea6658d52/All-you-need-to-know-about-embroidery-on-clothes-as-a-beginner-of-hand-embroidery-5.jpg?format=1500w"
+              src="/hero/hero1-Photoroom.png"
               alt="Elegance Embodied Dress"
               width={400}
               height={600}
@@ -40,16 +40,10 @@ export function HeroSection() {
             >
               <Heart className="w-5 h-5 text-emerald-500" />
             </button>
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-navy-900/70 via-navy-900/40 to-transparent">
-              <h3 className="text-white text-xl font-script font-bold mb-2">
-                Elegance Embodied Dress
-              </h3>
-              <p className="text-white/90 font-medium">$199.99</p>
-            </div>
           </div>
 
           {/* Secondary Products */}
-          <div className="grid grid-rows-2 gap-4">
+          <div className="grid grid-rows-2 gap-6">
             {/* Fashion Guide Card */}
             <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 p-6 rounded-[2.5rem] text-white relative overflow-hidden">
               <div className="absolute -top-10 -left-10 w-32 h-32 rounded-full bg-white/20"></div>
@@ -67,9 +61,9 @@ export function HeroSection() {
             </div>
 
             {/* Product Card */}
-            <div className="relative group rounded-3xl overflow-hidden">
+            <div className="relative group rounded-3xl overflow-hidden bg-navy-900">
               <Image
-                src="https://i.etsystatic.com/18058357/r/il/08abfd/3114460969/il_1080xN.3114460969_bno8.jpg"
+                src="/hero/hero2-Photoroom.png"
                 alt="Simplicity Blouse"
                 width={250}
                 height={300}
@@ -81,18 +75,12 @@ export function HeroSection() {
               >
                 <Heart className="w-5 h-5 text-emerald-500" />
               </button>
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-navy-900/70 via-navy-900/40 to-transparent">
-                <h3 className="text-white text-lg font-script font-bold mb-1">
-                  Simplicity Blouse
-                </h3>
-                <p className="text-white/90 font-medium">$129.99</p>
-              </div>
             </div>
           </div>
         </div>
 
         {/* Right Side - Content & Product */}
-        <div className="flex flex-col justify-between space-y-10">
+        <div className="flex flex-col justify-between space-y-8 sm:space-y-12">
           <div className="space-y-6 mb-8">
             <h1 className="text-[2rem] sm:text-[3rem] font-extrabold leading-tight font-script">
               Empowering{" "}
@@ -109,7 +97,7 @@ export function HeroSection() {
               Where Fashion Meets Craftsmanship — Uniting Impeccable Detailing
               with Your Unique Style
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-6 sm:gap-8">
               <Button variant="curvy" size="curvy">
                 Collect Now <ShoppingBagIcon className="w-4 h-4" />
               </Button>
@@ -120,9 +108,9 @@ export function HeroSection() {
           </div>
 
           {/* Bottom Product Card */}
-          <div className="relative group rounded-3xl overflow-hidden h-[180px] sm:h-[280px]">
+          <div className="relative group rounded-3xl overflow-hidden h-[180px] sm:h-[280px] bg-navy-900">
             <Image
-              src="https://plus.unsplash.com/premium_photo-1676751758731-6c0b1bdc57b0?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="/hero/hero3-Photoroom.png"
               alt="Regal Touch Pants"
               width={500}
               height={280}
@@ -134,12 +122,6 @@ export function HeroSection() {
             >
               <Heart className="w-5 h-5 text-emerald-500" />
             </button>
-            <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-navy-900/70 via-navy-900/40 to-transparent">
-              <h3 className="text-white text-lg font-script font-bold mb-1">
-                Regal Touch Pants
-              </h3>
-              <p className="text-white/90 font-medium">$149.99</p>
-            </div>
           </div>
         </div>
       </div>

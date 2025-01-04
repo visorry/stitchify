@@ -1,25 +1,13 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
-import { ShoppingBag, Filter } from "lucide-react";
-import { motion } from "framer-motion";
-import ProductCard from "@/components/explore/ProductCard";
-import FilterTag from "@/components/explore/FilterTag";
-import Categories from "@/components/explore/Categories";
-import FilterComponent from "@/components/explore/FilterComponent";
-import Link from "next/link";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Sidebar } from "./_components/Sidebar";
+import { MobileSidebar } from "./_components/MobileSidebar";
+import { ProductsGrid } from "@/components/ProductsGrid";
+import { ArrowRight } from "lucide-react";
 
 const ExplorePage: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<number>(1);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
-  const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
-  const [selectedPriceRange, setSelectedPriceRange] = useState<
-    [number, number]
-  >([0, 500]);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-
   const products = [
     {
       id: 1,
@@ -27,6 +15,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 1",
       price: 250,
       tags: ["Handmade", "Sustainable"],
+      image: "/hero/hero1-Photoroom.png",
+      category: "Category 1",
+      rating: 4.5,
+      isNew: true,
     },
     {
       id: 2,
@@ -34,6 +26,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 2",
       price: 320,
       tags: ["Handmade", "Sustainable", "Limited Edition"],
+      image: "/hero/hero1-Photoroom.png",
+      category: "Category 2",
+      rating: 4.0,
+      isNew: false,
     },
     {
       id: 3,
@@ -41,6 +37,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 3",
       price: 180,
       tags: ["Handmade"],
+      image: "/hero/hero1-Photoroom.png",
+      category: "Category 3",
+      rating: 3.5,
+      isNew: false,
     },
     {
       id: 4,
@@ -48,6 +48,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 4",
       price: 400,
       tags: ["Sustainable", "Limited Edition"],
+      image: "/hero/hero1-Photoroom.png",
+      category: "Category 4",
+      rating: 4.8,
+      isNew: false,
     },
     {
       id: 5,
@@ -55,6 +59,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 5",
       price: 270,
       tags: ["Handmade", "Sustainable"],
+      image: "/hero/hero1-Photoroom.png",
+      category: "Category 5",
+      rating: 4.2,
+      isNew: true,
     },
     {
       id: 6,
@@ -62,6 +70,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 6",
       price: 350,
       tags: ["Limited Edition"],
+      image: "/hero/hero1-Photoroom.png",
+      category: "Category 6",
+      rating: 4.1,
+      isNew: false,
     },
     {
       id: 7,
@@ -69,6 +81,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 7",
       price: 200,
       tags: ["Handmade", "Limited Edition"],
+      image: "/hero/hero1-Photoroom.png",
+      category: "Category 7",
+      rating: 3.9,
+      isNew: false,
     },
     {
       id: 8,
@@ -76,6 +92,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 8",
       price: 410,
       tags: ["Sustainable"],
+      image: "/hero/hero1-Photoroom.png",
+      category: "Category 8",
+      rating: 4.7,
+      isNew: false,
     },
     {
       id: 9,
@@ -83,6 +103,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 9",
       price: 290,
       tags: ["Handmade", "Sustainable"],
+      image: "/hero/hero1-Photoroom.png",
+      category: "Category 9",
+      rating: 4.3,
+      isNew: true,
     },
     {
       id: 10,
@@ -90,6 +114,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 10",
       price: 370,
       tags: ["Sustainable", "Limited Edition"],
+      image: "/placeholder.svg",
+      category: "Category 10",
+      rating: 4.6,
+      isNew: false,
     },
     {
       id: 11,
@@ -97,6 +125,10 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 11",
       price: 190,
       tags: ["Handmade"],
+      image: "/placeholder.svg",
+      category: "Category 11",
+      rating: 3.8,
+      isNew: false,
     },
     {
       id: 12,
@@ -104,167 +136,79 @@ const ExplorePage: React.FC = () => {
       artisan: "Artisan Studio 12",
       price: 450,
       tags: ["Handmade", "Limited Edition"],
+      image: "/placeholder.svg",
+      category: "Category 12",
+      rating: 4.9,
+      isNew: false,
     },
   ];
 
-  const categories = ["Dresses", "Tops", "Skirts", "Accessories"];
-  const materials = ["Cotton", "Silk", "Linen", "Wool"];
-  const styles = ["Bohemian", "Minimalist", "Vintage", "Contemporary"];
+  const [sortBy, setSortBy] = useState("name");
+  const [filterTags, setFilterTags] = useState<string[]>([]);
+  const [gridView, setGridView] = useState(true);
+  const [cartItems, setCartItems] = useState<number[]>([]);
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
+  const handleSort = (sort: string) => {
+    setSortBy(sort);
+    // Implement sorting logic here
+  };
+
+  const handleFilter = (tag: string) => {
+    setFilterTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
+    // Implement filtering logic here
   };
 
-  const handleMaterialChange = (material: string) => {
-    setSelectedMaterials((prev) =>
-      prev.includes(material)
-        ? prev.filter((m) => m !== material)
-        : [...prev, material]
-    );
+  const handleAddToCart = (productId: number) => {
+    setCartItems((prev) => [...prev, productId]);
   };
 
-  const handleStyleChange = (style: string) => {
-    setSelectedStyles((prev) =>
-      prev.includes(style) ? prev.filter((s) => s !== style) : [...prev, style]
-    );
+  const toggleMobileFilter = () => {
+    setMobileFilterOpen(!mobileFilterOpen);
   };
-
-  const handlePriceRangeChange = (range: [number, number]) => {
-    setSelectedPriceRange(range);
-  };
-
-  const handleClearFilters = () => {
-    setSelectedCategories([]);
-    setSelectedMaterials([]);
-    setSelectedStyles([]);
-    setSelectedPriceRange([0, 500]);
-  };
-
-  const filteredProducts = products.filter((product) => {
-    const categoryMatch =
-      selectedCategories.length === 0 ||
-      selectedCategories.includes(product.name.split(" ")[1]);
-    const materialMatch =
-      selectedMaterials.length === 0 ||
-      selectedMaterials.some((m) => product.tags.includes(m));
-    const styleMatch =
-      selectedStyles.length === 0 ||
-      selectedStyles.some((s) => product.tags.includes(s));
-    const priceMatch =
-      product.price >= selectedPriceRange[0] &&
-      product.price <= selectedPriceRange[1];
-    return categoryMatch && materialMatch && styleMatch && priceMatch;
-  });
 
   return (
-    <div className="min-h-screen relative">
-      {/* Categories */}
-      <Categories
-        activeCategory={activeCategory}
-        setActiveCategory={setActiveCategory}
-      />
-
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Explore Artisan Products</h1>
-        </div>
-
-        {/* Active Filters */}
-        <section className="mb-6">
-          <div className="flex flex-wrap gap-3">
-            {[
-              ...selectedCategories,
-              ...selectedMaterials,
-              ...selectedStyles,
-            ].map((tag) => (
-              <FilterTag key={tag} active={true}>
-                {tag}
-              </FilterTag>
-            ))}
-            {(selectedPriceRange[0] > 0 || selectedPriceRange[1] < 500) && (
-              <FilterTag active={true}>
-                ${selectedPriceRange[0]} - ${selectedPriceRange[1]}
-              </FilterTag>
-            )}
-          </div>
-        </section>
-
-        {/* Product Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </section>
+    <div className="min-h-screen flex flex-col md:flex-row">
+      {/* Desktop Sidebar */}
+      <div className="hidden md:block w-64 flex-shrink-0">
+        <Sidebar
+          sortBy={sortBy}
+          filterTags={filterTags}
+          cartItems={cartItems}
+          onSort={handleSort}
+          onFilter={handleFilter}
+          setGridView={setGridView}
+        />
       </div>
-      {/* Floating Cart Button */}
-      <Link href="/cart">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          className="hidden lg:flex fixed bottom-8 right-8 w-16 h-16 rounded-full bg-black dark:bg-white text-white dark:text-black items-center justify-center shadow-lg"
-        >
-          <ShoppingBag className="w-6 h-6" />
-        </motion.button>
-      </Link>
-      <Dialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-        <DialogTrigger asChild>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            className="hidden lg:flex fixed bottom-28 right-8 w-16 h-16 rounded-full bg-black dark:bg-white text-white dark:text-black items-center justify-center shadow-lg"
-          >
-            <Filter className="w-6 h-6" />
-          </motion.button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <FilterComponent
-            categories={categories}
-            materials={materials}
-            styles={styles}
-            priceRange={[0, 500]}
-            selectedCategories={selectedCategories}
-            selectedMaterials={selectedMaterials}
-            selectedStyles={selectedStyles}
-            selectedPriceRange={selectedPriceRange}
-            onCategoryChange={handleCategoryChange}
-            onMaterialChange={handleMaterialChange}
-            onStyleChange={handleStyleChange}
-            onPriceRangeChange={handlePriceRangeChange}
-            onClearFilters={handleClearFilters}
-          />
-        </DialogContent>
-      </Dialog>
 
-      {/* Mobile Floating Filter Button (Cylinder Style) */}
-      <Dialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-        <DialogTrigger asChild>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            className="lg:hidden fixed top-24 right-0 w-14 h-14 rounded-full text-black dark:text-white flex items-center justify-center shadow-lg bg-black/10 dark:bg-white/10"
-          >
-            <Filter className="w-6 h-6" />
-          </motion.button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <FilterComponent
-            categories={categories}
-            materials={materials}
-            styles={styles}
-            priceRange={[0, 500]}
-            selectedCategories={selectedCategories}
-            selectedMaterials={selectedMaterials}
-            selectedStyles={selectedStyles}
-            selectedPriceRange={selectedPriceRange}
-            onCategoryChange={handleCategoryChange}
-            onMaterialChange={handleMaterialChange}
-            onStyleChange={handleStyleChange}
-            onPriceRangeChange={handlePriceRangeChange}
-            onClearFilters={handleClearFilters}
-          />
-        </DialogContent>
-      </Dialog>
+      {/* Mobile Sidebar */}
+      <div className="md:hidden">
+        <Button
+          variant="default"
+          onClick={toggleMobileFilter}
+          className="fixed top-64 -left-4 z-50 w-12 h-12 rounded-r-full bg-navy-900/75"
+        >
+          <ArrowRight />
+        </Button>
+        <MobileSidebar
+          isOpen={mobileFilterOpen}
+          onClose={toggleMobileFilter}
+          sortBy={sortBy}
+          filterTags={filterTags}
+          cartItems={cartItems}
+          onSort={handleSort}
+          onFilter={handleFilter}
+          setGridView={setGridView}
+        />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-grow p-6">
+        <h1 className="text-3xl font-bold mb-6">Explore Artisan Products</h1>
+        <ProductsGrid products={products} gridView={gridView} />
+      </div>
     </div>
   );
 };
